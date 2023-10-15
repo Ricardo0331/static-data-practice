@@ -35,10 +35,6 @@ app.get("/states/:stateCode", (req, res) => {
     }
 });
 
-app.use((req, res) => {
-    res.status(404).send(`Not found: ${req.originalUrl}`);
-});
-
 
 // 404 Not Found handler
 app.use((req, res) => {
