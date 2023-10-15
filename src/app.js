@@ -40,4 +40,16 @@ app.use((req, res) => {
 });
 
 
+// 404 Not Found handler
+app.use((req, res) => {
+    res.status(404).send(`Not found: ${req.originalUrl}`);
+  });
+  
+  // Custom error handler
+  app.use((err, req, res, next) => {
+    console.error(err); // Log the error
+    res.status(500).send('Something went wrong!');
+  });
+  
+
 module.exports = app;
