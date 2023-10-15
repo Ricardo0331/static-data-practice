@@ -4,16 +4,40 @@ const app = express();
 const users = require("./data/users-data");
 const states = require("./data/states-data");
 
-// TODO: return an array of users from /users in form of { data: Array }
 
-// TODO: return a single user by id from /users/:userId in form of { data: Object }
+app.get("/users", (req, res) => {
+    res.json({ data: users });
+});
 
-// TODO: return all states from /states in the form of { data: Array }
+app.get("/users/:userId", (req, res) => {
+    const userId = req.params.userId; 
+    const user = users.find((user) => user.id === Number(userId));
+    
+    if (user) {
+        res.json({ data: user})
+    } else {
+        res.status(404).send(`User ID not found: ${userId}`);
+    }
+});
 
-// TODO: Return a single state from /states/:stateCode in the form of { data: { stateCode: String, name: String } }
+app.get("/states", (req, res) => {
+    res.json({ data: states});
+})
 
-// TODO: add not-found handler
+app.get("/states/:stateCode", (req, res) => {
+    const stateCode = req.params.stateCode;
+    const stateName = states[stateCode];
 
-// TODO: Add error handler
+    if (stateName) {
+        res.json({ data: {stateCode, name: stateName} })
+    } else {
+        res.status(404).send(`State code not found: ${stateCode}`)
+    }
+});
+
+app.use((req, res) => {
+    res.status(404).send(`Not found: ${req.originalUrl}`);
+});
+
 
 module.exports = app;
